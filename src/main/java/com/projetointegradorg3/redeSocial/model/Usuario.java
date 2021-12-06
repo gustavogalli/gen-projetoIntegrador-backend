@@ -1,8 +1,18 @@
 package com.projetointegradorg3.redeSocial.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * <p>
- * - id: representa a coluna de id do usuário. Essa coluna é gerada automaticamente e possui AUTO_INCREMENT.
+ * - id: representa a coluna de id do usuário. Essa coluna é gerada
+ * automaticamente e possui AUTO_INCREMENT.
  * </p>
  * 
  * <p>
@@ -25,17 +35,24 @@ package com.projetointegradorg3.redeSocial.model;
  *
  */
 
+@Entity
+@Table(name = "usuario")
 public class Usuario {
-
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@NotBlank
+	@Size(min = 5, max = 50)
 	private String nome;
 	
+	@NotBlank
+	@Size(min = 5, max = 45)
+	@Email
 	private String email;
 	
+	@NotBlank
+	@Size(min = 8, max = 20)
 	private String senha;
-	
-	
 
 }
