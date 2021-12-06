@@ -11,8 +11,7 @@ import javax.validation.constraints.Size;
 
 /**
  * <p>
- * - id: representa a coluna de id do usuário. Essa coluna é gerada
- * automaticamente e possui AUTO_INCREMENT.
+ * - id: representa a coluna de id do usuário. Essa coluna é gerada automaticamente e possui AUTO_INCREMENT.
  * </p>
  * 
  * <p>
