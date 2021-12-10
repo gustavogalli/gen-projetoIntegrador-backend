@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public class PostagemRepository {
+import com.projetointegradorg3.redeSocial.model.Postagem;
 
-	@Repository
-	public interface Postagem  extends JpaRepository<Postagem, Long>{
-		
-		public List<Postagem>findByAprenderContainingIgnoreCase(String aprender);
-	}
+@Repository
+public interface PostagemRepository extends JpaRepository<Postagem, Long> {
+
+	public List<Postagem> findByAprenderContainingIgnoreCase(String aprender);
+
 }
