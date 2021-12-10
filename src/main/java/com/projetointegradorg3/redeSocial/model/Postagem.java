@@ -33,11 +33,11 @@ public class Postagem {
 	private int pontosDeExperiencia;
 
 	@ManyToOne
-	@JsonIgnoreProperties("postagem")
+	@JsonIgnoreProperties("pontosDeExperiencia")
 	private Tema tema;
 
 	@ManyToOne
-	@JsonIgnoreProperties("postagem")
+	@JsonIgnoreProperties("pontosDeExperiencia")
 	private Usuario usuario;
 
 	public long getId() {

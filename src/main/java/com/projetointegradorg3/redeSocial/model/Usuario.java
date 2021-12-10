@@ -62,8 +62,8 @@ public class Usuario {
 
 	
 	
-	@OneToMany(mappedBy = "postagem", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("pontosDeExperiencia")
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("usuario")
     private List<Postagem> postagem;
 	
 	

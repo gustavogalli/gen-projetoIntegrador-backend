@@ -33,7 +33,7 @@ public class Tema {
 	@NotNull
 	private int pontosEnsinar;
 
-	@OneToMany(mappedBy = "postagem", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("pontosDeExperiencia")
 	private List<Postagem> postagem;
 
