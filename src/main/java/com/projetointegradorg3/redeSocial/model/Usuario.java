@@ -17,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * <p>
- * - id: representa a coluna de id do usuário. Essa coluna é gerada automaticamente e possui AUTO_INCREMENT.
+ * - id: representa a coluna de id do usuário. Essa coluna é gerada
+ * automaticamente e possui AUTO_INCREMENT.
  * </p>
  * 
  * <p>
@@ -46,28 +47,24 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@NotBlank
 	@Size(min = 5, max = 50)
 	private String nome;
-	
+
 	@NotBlank
 	@Size(min = 5, max = 45)
 	@Email
 	private String email;
-	
+
 	@NotBlank
 	@Size(min = 8, max = 20)
 	private String senha;
 
-	
-	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("usuario")
-    private List<Postagem> postagem;
-	
-	
-	
+	@JsonIgnoreProperties("usuario")
+	private List<Postagem> postagem;
+
 	public long getId() {
 		return id;
 	}

@@ -24,7 +24,7 @@ public class Tema {
 	private long id;
 
 	@NotBlank
-	@Size(max = 15)
+	@Size(max = 30)
 	private String curso;
 
 	@NotNull
