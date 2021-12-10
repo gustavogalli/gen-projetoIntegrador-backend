@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetointegradorg3.redeSocial.model.Usuario;
+import com.projetointegradorg3.redeSocial.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuario")
@@ -39,7 +40,7 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public Usuario delete(@PathVariable long id) {
+	public void delete(@PathVariable long id) {
 		repository.deleteById(id);
 	}
 
