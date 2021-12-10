@@ -13,26 +13,20 @@ import javax.validation.constraints.Size;
 
 public class Postagem {
 
-	
-	
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private long id; 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-@NotNull
-@Size(max = 15)
-private String aprender; 
+	@NotNull
+	@Size(max = 15)
+	private String aprender;
 
-@NotNull
-@Size(max = 15)
-private String ensinar;
+	@NotNull
+	@Size(max = 15)
+	private String ensinar;
 
+	private boolean didatica;
 
-private boolean didatica;
+	private int pontosDeExperiencia;
 
-
-private int pontosDeExperiencia;
-
-	
-	
 }
