@@ -34,8 +34,8 @@ public class Tema {
 	private int pontosEnsinar;
 
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("pontosDeExperiencia")
-	private List<Postagem> postagem;
+	@JsonIgnoreProperties("tema")
+	private List<Postagem> postagens;
 
 	public long getId() {
 		return id;
@@ -67,6 +67,14 @@ public class Tema {
 
 	public void setPontosEnsinar(int pontosEnsinar) {
 		this.pontosEnsinar = pontosEnsinar;
+	}
+
+	public List<Postagem> getPostagens() {
+		return postagens;
+	}
+
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens;
 	}
 
 }
