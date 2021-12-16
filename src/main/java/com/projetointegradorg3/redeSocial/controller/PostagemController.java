@@ -20,25 +20,25 @@ import com.projetointegradorg3.redeSocial.repository.PostagemRepository;
 @RequestMapping("/postagem")
 @CrossOrigin("*")
 public class PostagemController {
-	
+
 	@Autowired
 	private PostagemRepository repository;
-	
+
 	@GetMapping("/all")
-	public List<Postagem> getAll(){
+	public List<Postagem> getAll() {
 		return repository.findAll();
 	}
-	
+
 	@PostMapping("/save")
 	public Postagem post(@RequestBody Postagem postagem) {
 		return repository.save(postagem);
 	}
-	
+
 	@PutMapping("/update")
 	public Postagem put(@RequestBody Postagem postagem) {
 		return repository.save(postagem);
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
 	public void delete(@PathVariable long id) {
 		repository.deleteById(id);

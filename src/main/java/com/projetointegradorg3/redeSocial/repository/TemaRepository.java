@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.projetointegradorg3.redeSocial.model.Tema;
 
 @Repository
-public interface TemaRepository  extends JpaRepository<Tema, Long>{
-	
-	public List<Tema>findByCursoContainingIgnoreCase(String curso);
+public interface TemaRepository extends JpaRepository<Tema, Long> {
 
+	public List<Tema> findByCursoContainingIgnoreCase(String curso);
 
 }

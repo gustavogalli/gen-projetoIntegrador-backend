@@ -23,10 +23,10 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
 		auth.userDetailsService(service);
 	
-		auth.inMemoryAuthentication().withUser("root").password(passwordEncoder().encode("458italia"))
+		auth.inMemoryAuthentication().withUser("root")
+				.password(passwordEncoder().encode("458italia"))
 				.authorities("ROLE_ADMIN");
 	}
 	
@@ -36,11 +36,10 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
 				.antMatchers(HttpMethod.PUT, "usuarios/credentials").permitAll()
 				.anyRequest().authenticated()
-			.and().httpBasic()
-			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and().cors()
-			.and().csrf().disable();
-			
+				.and().httpBasic()
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().cors()
+				.and().csrf().disable();
 	}
 
 }

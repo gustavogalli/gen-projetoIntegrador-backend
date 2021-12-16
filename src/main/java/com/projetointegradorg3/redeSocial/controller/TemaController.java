@@ -16,23 +16,23 @@ import com.projetointegradorg3.redeSocial.model.Tema;
 import com.projetointegradorg3.redeSocial.repository.TemaRepository;
 
 @RestController
-@RequestMapping ("/tema")
-@CrossOrigin ("*")
+@RequestMapping("/tema")
+@CrossOrigin("*")
 public class TemaController {
-	
+
 	@Autowired
 	private TemaRepository repository;
-	
+
 	@GetMapping("/all")
-	public List<Tema> getAll(){
+	public List<Tema> getAll() {
 		return repository.findAll();
 	}
-	
+
 	@GetMapping("/id/{id}")
 	public Tema findById(@PathVariable long id) {
 		return repository.getById(id);
 	}
-	
+
 	@GetMapping("curso/{curso}")
 	public List<Tema> findByCursoContainingIgnoreCase(@PathVariable String curso) {
 		return repository.findByCursoContainingIgnoreCase(curso);
@@ -52,6 +52,5 @@ public class TemaController {
 	public void delete(@PathVariable long id) {
 		repository.deleteById(id);
 	}
-
 
 }

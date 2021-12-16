@@ -11,20 +11,16 @@ import org.springframework.stereotype.Service;
 import com.projetointegradorg3.redeSocial.model.Usuario;
 import com.projetointegradorg3.redeSocial.repository.UsuarioRepository;
 
-
-
-
-
 @Service
 public class UserDetailsServiceImplements implements UserDetailsService {
 
 	private @Autowired UsuarioRepository repository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		Optional<Usuario> optional = repository.findByEmail(username);
-		
+
 		if (optional.isPresent()) {
 			return new UserDetailsImplements(optional.get());
 		} else {

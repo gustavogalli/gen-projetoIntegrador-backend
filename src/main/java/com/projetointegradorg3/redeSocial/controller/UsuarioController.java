@@ -22,7 +22,6 @@ import com.projetointegradorg3.redeSocial.model.UsuarioLogin;
 import com.projetointegradorg3.redeSocial.repository.UsuarioRepository;
 import com.projetointegradorg3.redeSocial.service.UsuarioService;
 
-
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin(allowedHeaders = "*", origins = "*")
@@ -42,11 +41,9 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/logar")
-	public ResponseEntity<UsuarioLogin>authenticationUsuario (@RequestBody Optional<UsuarioLogin> usuario) {
-		return service.logarUsuario(usuario)
-				.map(resp ->ResponseEntity.ok(resp))
-		.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
-		
+	public ResponseEntity<UsuarioLogin> authenticationUsuario(@RequestBody Optional<UsuarioLogin> usuario) {
+		return service.logarUsuario(usuario).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 
 	@PostMapping("/cadastrar")
@@ -60,6 +57,5 @@ public class UsuarioController {
 		return service.atualizarUsuario(usuario).map(resp -> ResponseEntity.status(HttpStatus.OK).body(resp))
 				.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
-
 
 }
