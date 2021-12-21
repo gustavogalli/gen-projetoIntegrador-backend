@@ -21,7 +21,7 @@ public class SwaggerConfiguration {
         return new OpenAPI()
                 .info(new Info().title("Projeto Integrador G3").description("Projeto Integrador G3 - Generation Brasil")
                         .version("v0.0.1")
-                        .license(new License().name("Generation Brasil").url("https://brazil.generation.org/\r\n"))
+                        .license(new License().name("Generation Brasil").url("https://brazil.generation.org/"))
                                 .contact(new Contact().name("Grupo G3").url("---")
                                 .email("ProjetoIntegradorG3@gmail.com")))
                 .externalDocs(new ExternalDocumentation().description("GitHub")
