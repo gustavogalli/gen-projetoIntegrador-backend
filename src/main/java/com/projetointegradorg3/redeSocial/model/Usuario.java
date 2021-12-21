@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * <p>
  * - id: representa a coluna de id do usuário. Essa coluna é gerada
@@ -52,13 +54,14 @@ public class Usuario {
 	@Size(min = 5, max = 50)
 	private String nome;
 
-	@NotBlank
+	@NotBlank (message = "O atributo Usuário é Obrigatório!")
+	@Schema (example = "email@email.com.br")
 	@Size(min = 5, max = 45)
-	@Email
+	@Email (message = "O atributo Usuário deve ser um email válido!")
 	private String email;
 
 	@NotBlank
-	@Size(min = 8, max = 20)
+	@Size(min = 8, max = 100)
 	private String senha;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
