@@ -11,7 +11,7 @@ import com.projetointegradorg3.redeSocial.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
-	public List<Usuario> findAllByNomeCompleto(String nomeCompleto);
+	public List<Usuario> findAllByNome(String nome);
 	public Optional<Usuario> findByEmail (String email);
 	public Optional<Usuario> findAllByUsuario(String usuario);
 
