@@ -1,5 +1,6 @@
 package com.projetointegradorg3.redeSocial.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,62 +19,58 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "tema")
 public class Tema {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-
-	@NotBlank
-	@Size(max = 30)
-	private String curso;
-
-	@NotNull
-	private int pontosAprender;
-
-	@NotNull
-	private int pontosEnsinar;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+	
+	private @NotNull String assunto;
+	
+	private String descricao;
+	
+	@Size(max = 5000, message = "O link da foto não pode ter mais de 5.000 caracteres")
+	private String foto_url;
+	
 
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("tema")
-	private List<Postagem> postagens;
+	@JsonIgnoreProperties ("tema")
+	
+	private List<Postagem> postagem = new ArrayList<>();
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getCurso() {
-		return curso;
+	public String getAssunto() {
+		return assunto;
 	}
 
-	public void setCurso(String curso) {
-		this.curso = curso;
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
 	}
 
-	public int getPontosAprender() {
-		return pontosAprender;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setPontosAprender(int pontosAprender) {
-		this.pontosAprender = pontosAprender;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
-	public int getPontosEnsinar() {
-		return pontosEnsinar;
+	public String getFoto_url() {
+		return foto_url;
 	}
 
-	public void setPontosEnsinar(int pontosEnsinar) {
-		this.pontosEnsinar = pontosEnsinar;
+	public void setFoto_url(String foto_url) {
+		this.foto_url = foto_url;
+	}
+	
+	public List<Postagem> getPostagem() {
+		return postagem;
 	}
 
-	public List<Postagem> getPostagens() {
-		return postagens;
+	public void setPostagem(List<Postagem> postagem) {
+		this.postagem = postagem;
 	}
-
-	public void setPostagens(List<Postagem> postagens) {
-		this.postagens = postagens;
-	}
-
 }

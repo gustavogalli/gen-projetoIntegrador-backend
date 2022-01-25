@@ -10,6 +10,5 @@ import com.projetointegradorg3.redeSocial.model.Postagem;
 @Repository
 public interface PostagemRepository extends JpaRepository<Postagem, Long> {
 
-	public List<Postagem> findByAprenderContainingIgnoreCase(String aprender);
-
+	public List<Postagem> findByTituloContainingIgnoreCase(String Titulo);
 }

@@ -16,57 +16,65 @@ import com.projetointegradorg3.redeSocial.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-	private @Autowired UsuarioRepository usuarioRepository;
 
-	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
-		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!");
-		usuario.setSenha(criptografarSenha(usuario.getSenha()));
-		return Optional.of(usuarioRepository.save(usuario));
-	}
+	@Autowired
+	private UsuarioRepository repository;
 
-	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
-		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
-			Optional<Usuario> buscaUsuario = usuarioRepository.findByEmail(usuario.getEmail());
-			if (buscaUsuario.isPresent()) {
-				if (buscaUsuario.get().getId() != usuario.getId())
-					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!");
-			}
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			return Optional.of(usuarioRepository.save(usuario));
+	public Usuario CadastrarUsuario(Usuario usuario) {
+		Optional<Usuario> optionalemail = repository.findByEmail(usuario.getEmail());
+		Optional<Usuario> optionalusuario = repository.findAllByUsuario(usuario.getUsuario());
+		if (optionalemail.isEmpty() && optionalusuario.isEmpty()) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+			String senhaencoder = encoder.encode(usuario.getSenha());
+			usuario.setSenha(senhaencoder);
+
+			return repository.save(usuario);
+		} else if (optionalemail.isPresent()){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email já existente");
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "usuário já existente");
 		}
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!");
 	}
 
-	public Optional<UsuarioLogin> logarUsuario(Optional<UsuarioLogin> usuarioLogin) {
-		Optional<Usuario> usuario = usuarioRepository.findByEmail(usuarioLogin.get().getEmail());
+	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Optional<Usuario> email = repository.findByEmail(user.get().getEmail());
+		Optional<Usuario> usuario = repository.findAllByUsuario(user.get().getUsuario());
+
 		if (usuario.isPresent()) {
-			if (compararSenhas(usuarioLogin.get().getSenha(), usuario.get().getSenha())) {
-				usuarioLogin.get().setId(usuario.get().getId());
-				usuarioLogin.get().setNome(usuario.get().getNome());
-				usuarioLogin.get().setSenha(usuario.get().getSenha());
-				usuarioLogin.get()
-						.setToken(generatorBasicToken(usuarioLogin.get().getEmail(), usuarioLogin.get().getSenha()));
-				return usuarioLogin;
+			if (encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {
+
+				String auth = user.get().getUsuario() + ":" + user.get().getSenha();
+				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+				String authHeader = "Basic " + new String(encodedAuth);
+
+				user.get().setToken(authHeader);
+				user.get().setUsuario(usuario.get().getUsuario());
+				user.get().setSenha(usuario.get().getSenha());
+
+				return user;
+
+			} else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta!");
 			}
+		} else if (email.isPresent()) {
+			if (encoder.matches(user.get().getSenha(), email.get().getSenha())) {
+				String auth = user.get().getEmail() + ":" + user.get().getSenha();
+				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+				String authHeader = "Basic " + new String(encodedAuth);
+
+				user.get().setToken(authHeader);
+				user.get().setEmail(email.get().getEmail());
+				user.get().setSenha(email.get().getSenha());
+
+				return user;
+			} else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta!");
+			}
+		} else {
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email ou usuário incorreto!");
 		}
-		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos!", null);
-	}
-
-	private String criptografarSenha(String senha) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String senhaEncoder = encoder.encode(senha);
-		return senhaEncoder;
-	}
-
-	private boolean compararSenhas(String senhaDigitada, String senhaBanco) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.matches(senhaDigitada, senhaBanco);
-	}
-
-	private String generatorBasicToken(String email, String password) {
-		String structure = email + ":" + password;
-		byte[] structureBase64 = Base64.encodeBase64(structure.getBytes(Charset.forName("US-ASCII")));
-		return "Basic " + new String(structureBase64);
 	}
 }

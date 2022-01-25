@@ -1,5 +1,6 @@
 package com.projetointegradorg3.redeSocial.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,12 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * <p>
@@ -28,7 +27,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * </p>
  * 
  * <p>
- * - email: representa o email que será utilizado para acessar;
+ * - usuario: representa o usuários que será utilizado para acessar;
+ * </p>
+ * 
+ * <p>
+ * - email: representa o email que também poderá será utilizado para acessar;
  * </p>
  * 
  * <p>
@@ -46,33 +49,41 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private  Long id;
 
-	@NotBlank
-	@Size(min = 5, max = 50)
-	private String nome;
+	@NotNull @Size(min = 8, max = 50)
+	private  String nome;
+	
+	@NotNull @Size(min = 3, max = 25)
+	private String usuario;
+	
+	@NotNull @Email @Size(min = 5, max = 50)
+	private  String email;
 
-	@NotBlank (message = "O atributo Usuário é Obrigatório!")
-	@Schema (example = "email@email.com.br")
-	@Size(min = 5, max = 45)
-	@Email (message = "O atributo Usuário deve ser um email válido!")
-	private String email;
-
-	@NotBlank
-	@Size(min = 8, max = 100)
+	@NotNull @Size(min = 5)
 	private String senha;
-
+	
+	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("usuario")
-	private List<Postagem> postagens;
+	@JsonIgnoreProperties ("usuario")
+	
+	private List<Postagem> postagem = new ArrayList<>();
 
-	public long getId() {
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -100,12 +111,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public List<Postagem> getPostagens() {
-		return postagens;
+	public List<Postagem> getPostagem() {
+		return postagem;
 	}
 
-	public void setPostagens(List<Postagem> postagens) {
-		this.postagens = postagens;
+	public void setPostagem(List<Postagem> postagem) {
+		this.postagem = postagem;
 	}
-
 }

@@ -1,12 +1,21 @@
 package com.projetointegradorg3.redeSocial.model;
 
+import java.time.LocalDate;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,64 +25,83 @@ public class Postagem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
-	@Size(max = 30)
-	private String aprender;
+	@NotBlank(message = "Campo obrigatório")
+	@Size(min = 2, max = 255, message = "Tamanho mínimo é de 2 e o máximo é de 255 caracteres")
+	private String titulo;
 
-	@Size(max = 30)
-	private String ensinar;
+	@NotBlank(message = "Campo obrigatório")
+	@Size(min = 2, max = 8000, message = "Tamanho mínimo é de 2 e o máximo é de 8000 caracteres")
+	private String texto;
 
-	private boolean didatica;
+	@UpdateTimestamp
+	private LocalDate data;
 
-	private int pontosDeExperiencia;
+	private int curtida;
+	
+	@Size(max = 5000, message = "O link da foto não pode ter mais de 5.000 caracteres")
+	@URL(message= "o link deve ser valido")
+	private String imagem;
 
-	@ManyToOne
-	@JsonIgnoreProperties("postagens")
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_tema")
+	@JsonIgnoreProperties("Postagem")
+
 	private Tema tema;
 
-	@ManyToOne
-	@JsonIgnoreProperties("postagens")
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_usuario")
+	@JsonIgnoreProperties("usuario")
+
 	private Usuario usuario;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getAprender() {
-		return aprender;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setAprender(String aprender) {
-		this.aprender = aprender;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
-	public String getEnsinar() {
-		return ensinar;
+	public String getTexto() {
+		return texto;
 	}
 
-	public void setEnsinar(String ensinar) {
-		this.ensinar = ensinar;
+	public void setTexto(String texto) {
+		this.texto = texto;
 	}
 
-	public boolean isDidatica() {
-		return didatica;
+	public LocalDate getData() {
+		return data;
 	}
 
-	public void setDidatica(boolean didatica) {
-		this.didatica = didatica;
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
-	public int getPontosDeExperiencia() {
-		return pontosDeExperiencia;
+	public int getCurtida() {
+		return curtida;
 	}
 
-	public void setPontosDeExperiencia(int pontosDeExperiencia) {
-		this.pontosDeExperiencia = pontosDeExperiencia;
+	public void setCurtida(int curtida) {
+		this.curtida = curtida;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	public Tema getTema() {
@@ -91,5 +119,4 @@ public class Postagem {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
 }

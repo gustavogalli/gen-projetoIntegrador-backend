@@ -6,54 +6,63 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.projetointegradorg3.redeSocial.model.Usuario;
-
 public class UserDetailsImplements implements UserDetails {
+
 	private static final long serialVersionUID = 1L;
-	private String userName;
-	private String password;
+
+	private String email;
+
+	private String senha;
+
 	private List<GrantedAuthority> authorities;
 
-	public UserDetailsImplements(Usuario user) {
-		this.userName = user.getEmail();
-		this.password = user.getSenha();
-	}
+	public UserDetailsImplements() {}
 
-	public UserDetailsImplements() {
+	public UserDetailsImplements(String email, String senha) {
+		this.email = email;
+		this.senha = senha;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
 		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		return password;
+		// TODO Auto-generated method stub
+		return senha;
 	}
 
 	@Override
 	public String getUsername() {
-		return userName;
+		// TODO Auto-generated method stub
+		return email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
+		// TODO Auto-generated method stub
 		return true;
 	}
+
 }
