@@ -66,8 +66,11 @@ public class UsuarioService {
 				String authHeader = "Basic " + new String(encodedAuth);
 
 				user.get().setToken(authHeader);
+				user.get().setId(email.get().getId());
+				user.get().setNome(email.get().getNome());
+				user.get().setFoto(email.get().getFoto());
+				user.get().setTipo(email.get().getTipo());
 				user.get().setEmail(email.get().getEmail());
-				user.get().setSenha(email.get().getSenha());
 
 				return user;
 			} else {

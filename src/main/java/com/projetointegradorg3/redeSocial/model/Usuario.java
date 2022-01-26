@@ -38,6 +38,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * - senha: representa a senha de acesso do usuário;
  * </p>
  * 
+ * <p>
+ * - foto: representa a foto do usuário;
+ * </p>
+ * 
+ * <p>
+ * - tipo: representa se o usuário é administrador ou usuário normal;
+ * </p>
+ * 
  * @author Caio Gabriel
  * @author Gustavo Galli
  * @author João Almeida
@@ -49,26 +57,35 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private  Long id;
 
-	@NotNull @Size(min = 8, max = 50)
-	private  String nome;
-	
-	@NotNull @Size(min = 3, max = 25)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotNull
+	@Size(min = 8, max = 50)
+	private String nome;
+
+	@NotNull
+	@Size(min = 3, max = 25)
 	private String usuario;
-	
-	@NotNull @Email @Size(min = 5, max = 50)
-	private  String email;
 
-	@NotNull @Size(min = 5)
+	@NotNull
+	@Email
+	@Size(min = 5, max = 50)
+	private String email;
+
+	@NotNull
+	@Size(min = 5)
 	private String senha;
+
+	private String foto;
 	
-	
+	private String tipo;
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties ("usuario")
-	
+	@JsonIgnoreProperties("usuario")
+
 	private List<Postagem> postagem = new ArrayList<>();
 
 	public String getUsuario() {
@@ -109,6 +126,22 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public List<Postagem> getPostagem() {
