@@ -1,6 +1,5 @@
 package com.projetointegradorg3.redeSocial.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,11 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * </p>
  * 
  * <p>
- * - usuario: representa o usuários que será utilizado para acessar;
- * </p>
- * 
- * <p>
- * - email: representa o email que também poderá será utilizado para acessar;
+ * - usuario: representa o usuário que será utilizado para acessar;
  * </p>
  * 
  * <p>
@@ -62,38 +57,34 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
-	@Size(min = 8, max = 50)
+	@NotNull(message = "O atributo Nome é Obrigatório!")
 	private String nome;
 
-	@NotNull
-	@Size(min = 3, max = 25)
+	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caractéres")
+	private String foto;
+
+	private String tipo;
+
+	@NotNull(message = "O atributo Usuário é Obrigatório!")
 	private String usuario;
 
-	@NotNull
-	@Email
-	@Size(min = 5, max = 50)
-	private String email;
-
-	@NotNull
-	@Size(min = 5)
+	@NotBlank(message = "O atributo Senha é Obrigatório!")
+	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
-
-	private String foto;
-	
-	private String tipo;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
+	private List<Postagem> postagem;
 
-	private List<Postagem> postagem = new ArrayList<>();
-
-	public String getUsuario() {
-		return usuario;
+	public Usuario(Long id, String nome, String foto, String usuario, String senha) {
+		this.id = id;
+		this.nome = nome;
+		this.foto = foto;
+		this.usuario = usuario;
+		this.senha = senha;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public Usuario() {
 	}
 
 	public Long getId() {
@@ -112,12 +103,20 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getFoto() {
+		return foto;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getSenha() {
@@ -128,12 +127,12 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public String getFoto() {
-		return foto;
+	public List<Postagem> getPostagem() {
+		return postagem;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
+	public void setPostagem(List<Postagem> postagem) {
+		this.postagem = postagem;
 	}
 
 	public String getTipo() {
@@ -144,11 +143,4 @@ public class Usuario {
 		this.tipo = tipo;
 	}
 
-	public List<Postagem> getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	}
 }
