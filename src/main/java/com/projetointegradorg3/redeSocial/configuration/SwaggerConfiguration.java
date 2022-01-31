@@ -15,10 +15,9 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 
 @Configuration
 public class SwaggerConfiguration {
-
-
+	 
 	@Bean
-	public OpenAPI springOpenAPI() {
+	public OpenAPI springBlogPessoalOpenAPI () {
 		return new OpenAPI()
 				.info(new Info()
 						.title("Gen.TI")
@@ -34,26 +33,26 @@ public class SwaggerConfiguration {
 						.description("GitHub - Gen.TI")
 						.url("https://github.com/gustavogalli/projeto-integrador-g3"));
 	}
-
-    private ApiResponse createApiResponse(String message) {
-		return new ApiResponse().description(message);
+	
+	private ApiResponse createApiResponse (String message) {
+		return new ApiResponse().description(message); 
 	}
-
-    @Bean
-	public OpenApiCustomiser customerGlobalResponseStatus() {
-		return openApi -> {
-			openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
-				ApiResponses api = operation.getResponses();
+	
+	@Bean
+	public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser () {
+		return OpenApiCustomiser -> {
+			OpenApiCustomiser.getPaths().values().forEach(PathItem -> PathItem.readOperations().forEach(operation -> {
 				
-				api.addApiResponse("200", createApiResponse("Sucesso!"));
-				api.addApiResponse("201", createApiResponse("Criado!"));
-				api.addApiResponse("204", createApiResponse("Sem conteudo!"));
-				api.addApiResponse("400", createApiResponse("Erro de requisição!"));
-				api.addApiResponse("401", createApiResponse("Não autorizado!"));
-				api.addApiResponse("404", createApiResponse("Não encontrado!"));
-				api.addApiResponse("500", createApiResponse("Erro interno do servidor!"));
+				ApiResponses apiResponses = operation.getResponses();
+				
+				apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
+				apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
+				apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
+				apiResponses.addApiResponse("400", createApiResponse("Erro na Requisição!"));
+				apiResponses.addApiResponse("401", createApiResponse("Acesso Não Autorizado!"));
+				apiResponses.addApiResponse("404", createApiResponse("Objeto Não Encontrado!"));
+				apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
 			}));
 		};
 	}
-    
 }

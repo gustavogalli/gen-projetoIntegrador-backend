@@ -14,16 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
+   
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("root").password(passwordEncoder().encode("root"))
-				.authorities("ROLE_ADMIN");
-		auth.userDetailsService(userDetailsService);
-	}
+	private @Autowired UserDetailsServiceImplements service;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -31,14 +24,23 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		auth.userDetailsService(service);
+
+		auth.inMemoryAuthentication().withUser("root").password(passwordEncoder().encode("root"))
+				.authorities("ROLE_ADMIN");
+	}
+
+	@Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
         .antMatchers("/**").permitAll()
-        .antMatchers("/usuario/logar").permitAll()
-        .antMatchers("/usuario/cadastrar").permitAll()
-        .antMatchers(HttpMethod.POST ,"/postagem").permitAll()
+        .antMatchers("/usuarios/logar").permitAll()
+        .antMatchers("/usuarios/cadastrar").permitAll()
+        .antMatchers(HttpMethod.POST ,"/postagens").permitAll()
         .antMatchers(HttpMethod.POST ,"/tema").permitAll()
-        .antMatchers(HttpMethod.GET ,"/postagem").permitAll()
+        .antMatchers(HttpMethod.GET ,"/postagens").permitAll()
         .antMatchers(HttpMethod.GET ,"/tema").permitAll()
         .anyRequest().authenticated()
         .and().httpBasic()

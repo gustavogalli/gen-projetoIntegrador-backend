@@ -1,6 +1,5 @@
 package com.projetointegradorg3.redeSocial.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -19,35 +17,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "tema")
 public class Tema {
 
-	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-	
-	private @NotNull String assunto;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+
+	@NotNull
 	private String descricao;
-	
-	@Size(max = 5000, message = "O link da foto não pode ter mais de 5.000 caracteres")
-	private String foto_url;
-	
 
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties ("tema")
-	
-	private List<Postagem> postagem = new ArrayList<>();
+	// mappedBy - informa qual é a variável
+	// cascade - não deixa excluir a tabela tema pq há postagens que estão
+	// conectadas a ele
+	@JsonIgnoreProperties("tema")
+	private List<Postagem> postagens;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getAssunto() {
-		return assunto;
-	}
-
-	public void setAssunto(String assunto) {
-		this.assunto = assunto;
 	}
 
 	public String getDescricao() {
@@ -58,19 +47,12 @@ public class Tema {
 		this.descricao = descricao;
 	}
 
-	public String getFoto_url() {
-		return foto_url;
+	public List<Postagem> getPostagens() {
+		return postagens;
 	}
 
-	public void setFoto_url(String foto_url) {
-		this.foto_url = foto_url;
-	}
-	
-	public List<Postagem> getPostagem() {
-		return postagem;
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens;
 	}
 
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	}
 }

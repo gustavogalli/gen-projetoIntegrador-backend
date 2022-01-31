@@ -1,6 +1,6 @@
 package com.projetointegradorg3.redeSocial.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,56 +11,47 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.URL;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "postagem")
+@Entity // indica que a classe Postagem é uma entidade do JPA Hibernate
+@Table(name = "postagem") // indica que a entidade criará uma TABELA de nome "postagem"
 public class Postagem {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica que o ID será uma chave primária
+	private long id;
 
-	@NotBlank(message = "Campo obrigatório")
-	@Size(min = 2, max = 255, message = "Tamanho mínimo é de 2 e o máximo é de 255 caracteres")
+	@NotNull
+	@Size(min = 5, max = 100) // quantidade de caracteres
 	private String titulo;
 
-	@NotBlank(message = "Campo obrigatório")
-	@Size(min = 2, max = 8000, message = "Tamanho mínimo é de 2 e o máximo é de 8000 caracteres")
+	@NotNull
+	@Size(min = 10, max = 500)
 	private String texto;
 
-	@UpdateTimestamp
-	private LocalDate data;
+	@Temporal(TemporalType.TIMESTAMP) // indica para o JPA Hibernate que estamos trabalhando com tempo
+	private Date data = new java.sql.Date(System.currentTimeMillis()); // pega a data e horário exatos em que foi
+																		// postado
 
-	private int curtida;
-	
-	@Size(max = 5000, message = "O link da foto não pode ter mais de 5.000 caracteres")
-	@URL(message= "o link deve ser valido")
-	private String imagem;
-
-	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_tema")
-	@JsonIgnoreProperties("Postagem")
-
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("postagens")
 	private Tema tema;
 
 	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_usuario")
-	@JsonIgnoreProperties("usuario")
-
+	@JoinColumn(name = "usuario")
+	@JsonIgnoreProperties ("postagem")
 	private Usuario usuario;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -80,28 +71,12 @@ public class Postagem {
 		this.texto = texto;
 	}
 
-	public LocalDate getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
+	public void setData(Date data) {
 		this.data = data;
-	}
-
-	public int getCurtida() {
-		return curtida;
-	}
-
-	public void setCurtida(int curtida) {
-		this.curtida = curtida;
-	}
-
-	public String getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
 	}
 
 	public Tema getTema() {
@@ -119,4 +94,5 @@ public class Postagem {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
 }

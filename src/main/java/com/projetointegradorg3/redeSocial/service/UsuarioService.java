@@ -32,7 +32,7 @@ public class UsuarioService {
 		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
 			Optional<Usuario> buscaUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
 			if (buscaUsuario.isPresent()) {
-				if (buscaUsuario.get().getId()!= usuario.getId())
+				if (buscaUsuario.get().getId() != usuario.getId())
 					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 			}
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
@@ -50,12 +50,8 @@ public class UsuarioService {
 				usuarioLogin.get().setFoto(usuario.get().getFoto());
 				usuarioLogin.get().setToken(generatorBasicToken(usuarioLogin.get().getUsuario(), usuarioLogin.get().getSenha()));
 				usuarioLogin.get().setSenha(usuario.get().getSenha());
-			
 				usuarioLogin.get().setTipo(usuario.get().getTipo());
-			
 				return usuarioLogin;
-				
-				
 			}
 		}
 		throw new ResponseStatusException(
@@ -73,10 +69,10 @@ public class UsuarioService {
 		return encoder.matches(senhaDigitada, senhaBanco);
 	}
 
-	private String generatorBasicToken(String email, String password) {
-		String structure = email + ":" + password;
+	private String generatorBasicToken(String user, String password) {
+		String structure = user + ":" + password;
 		byte[] structureBase64 = Base64.encodeBase64(structure.getBytes(Charset.forName("US-ASCII")));
 		return "Basic " + new String(structureBase64);
 	}
-	
+
 }

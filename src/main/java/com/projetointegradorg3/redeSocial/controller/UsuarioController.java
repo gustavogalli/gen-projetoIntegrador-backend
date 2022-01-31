@@ -26,9 +26,8 @@ import com.projetointegradorg3.redeSocial.repository.UsuarioRepository;
 import com.projetointegradorg3.redeSocial.service.UsuarioService;
 
 @RestController
-@RequestMapping("/usuario")
-@CrossOrigin(allowedHeaders = "*", origins = "*")
-
+@RequestMapping("/usuarios")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
 
 	@Autowired
