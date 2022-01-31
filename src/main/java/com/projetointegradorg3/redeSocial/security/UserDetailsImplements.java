@@ -6,21 +6,21 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.projetointegradorg3.redeSocial.model.Usuario;
+
 public class UserDetailsImplements implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private String usuario;
+	private String userName;
 
-	private String senha;
+	private String password;
 
 	private List<GrantedAuthority> authorities;
 
-	public UserDetailsImplements() {}
-
-	public UserDetailsImplements(String usuario, String senha) {
-		this.usuario = usuario;
-		this.senha = senha;
+	public UserDetailsImplements(Usuario user) {
+		this.userName= user.getUsuario();
+		this.password = user.getSenha();
 	}
 
 	@Override
@@ -32,13 +32,13 @@ public class UserDetailsImplements implements UserDetails {
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return senha;
+		return password;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return usuario;
+		return userName;
 	}
 
 	@Override
