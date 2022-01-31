@@ -1,6 +1,6 @@
 package com.projetointegradorg3.redeSocial.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
