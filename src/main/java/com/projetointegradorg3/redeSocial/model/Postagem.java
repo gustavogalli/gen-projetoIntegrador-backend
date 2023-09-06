@@ -38,11 +38,11 @@ public class Postagem {
 	private Date data = new java.sql.Date(System.currentTimeMillis()); // pega a data e horário exatos em que foi
 																		// postado
 
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("postagens")
 	private Tema tema;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuario")
 	@JsonIgnoreProperties ("postagem")
 	private Usuario usuario;
