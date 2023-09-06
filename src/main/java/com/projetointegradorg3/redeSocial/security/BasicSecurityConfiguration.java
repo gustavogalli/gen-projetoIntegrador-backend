@@ -41,6 +41,8 @@ public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST ,"/tema").permitAll()
         .antMatchers(HttpMethod.GET ,"/postagem").permitAll()
         .antMatchers(HttpMethod.GET ,"/tema").permitAll()
+	.antMatchers(HttpMethod.PUT ,"/postagem").permitAll()
+        .antMatchers(HttpMethod.PUT ,"/tema").permitAll()
         .anyRequest().authenticated()
         .and().httpBasic()
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
